@@ -30,7 +30,7 @@
 {% get_obj_perms request.user for blawxtest as 'blawxtest_perms' %}
 {% get_obj_perms request.user for blawxtest.ruledoc as 'ruledoc_perms' %}
 
-    <script src="{% static 'blawx/blockly/blockly_compressed.js' %}"></script>
+    <script src="{% static 'blawx/blockly/blockly_compressed.js' %}" id="blockly_script_tag"></script>
     <script src="{% static 'blawx/blockly/msg/en.js' %}"></script>
     <script src="{% static 'blawx/blockly/javascript_compressed.js' %}"></script>
     <script src="{% static 'blawx/blockly/blocks_compressed.js' %}"></script>
@@ -150,11 +150,14 @@
             demoWorkspace.addChangeListener(updateRelationshipDeclaration);
             var knownCategories = [];
             var localCategories = [];
+            var target_blockly_script = document.getElementById('blockly_script_tag');
+            target_blockly_script.onload = function() {
+                knownCategories = getKnownCategories();
+                updateLocalCategories();
+            }
             window.onload = function() {
                 onresize();
                 liveCode(null);
-                knownCategories = getKnownCategories();
-                updateLocalCategories();
             };
 
             
